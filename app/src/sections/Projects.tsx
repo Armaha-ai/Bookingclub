@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Zap, Target, Users, ArrowRight, Plus, X, Heart } from 'lucide-react';
+import { Zap, Users, ArrowRight, Plus, X, Heart } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -22,7 +22,6 @@ const STORAGE_KEY = 'bookclub_projects';
 const CATEGORIES = ['курс', 'проект', 'инициатива', 'партнерство'];
 const STATUSES = ['активный', 'планируется', 'завершен'];
 
-// Default projects (примеры)
 const DEFAULT_PROJECTS: Project[] = [
   {
     id: 'project-akperil',
@@ -70,7 +69,6 @@ function loadProjects(): Project[] {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const loaded = JSON.parse(raw);
-      // Объединяем дефолтные и загруженные
       return [...DEFAULT_PROJECTS, ...loaded];
     }
   } catch {
@@ -80,7 +78,6 @@ function loadProjects(): Project[] {
 }
 
 function saveProjects(projects: Project[]) {
-  // Сохраняем только добавленные пользователем
   const userProjects = projects.filter((p) => p.userAdded);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(userProjects));
 }
@@ -108,7 +105,6 @@ export function Projects() {
     goals: '',
   });
 
-  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -123,14 +119,12 @@ export function Projects() {
     return () => observer.disconnect();
   }, []);
 
-  // Фильтрование проектов
   const filtered = projects.filter((p) => {
     const categoryMatch = filterCategory === 'все' || p.category === filterCategory;
     const statusMatch = filterStatus === 'все' || p.status === filterStatus;
     return categoryMatch && statusMatch;
   });
 
-  // Сортировка: избранные и активные вверху
   const sorted = [...filtered].sort((a, b) => {
     const aFav = favorites.has(a.id) ? 0 : 1;
     const bFav = favorites.has(b.id) ? 0 : 1;
@@ -228,14 +222,12 @@ export function Projects() {
       </div>
 
       <div className="container-custom relative">
-        {/* Section Title */}
         <div className="fade-up text-center mb-12">
           <span className="font-script text-3xl text-[#C17A5A] block mb-2">Развиваемся</span>
           <span className="text-[#C17A5A] text-xs uppercase tracking-[0.2em] mb-4 block">Новые направления</span>
           <h2 className="font-serif text-h1 text-[#3D2B1F]">Проекты и курсы</h2>
         </div>
 
-        {/* Filter Buttons */}
         <div className="fade-up flex flex-wrap justify-center gap-2 mb-8 items-center">
           <div className="flex gap-2 flex-wrap">
             <button
@@ -300,7 +292,6 @@ export function Projects() {
           </button>
         </div>
 
-        {/* Projects Grid */}
         {sorted.length === 0 ? (
           <div className="text-center py-20 text-[#3D2B1F]/50">
             <Zap className="w-12 h-12 mx-auto mb-4 opacity-30" />
@@ -315,7 +306,6 @@ export function Projects() {
                 className="group bg-white rounded-xl border border-[#E8C4B8]/30 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 cursor-pointer"
                 onClick={() => setSelectedProject(project)}
               >
-                {/* Image */}
                 {project.image && (
                   <div className="h-40 bg-gradient-to-b from-[#E8C4B8]/20 to-[#FAF3E0] flex items-center justify-center overflow-hidden">
                     <img
@@ -326,9 +316,7 @@ export function Projects() {
                   </div>
                 )}
 
-                {/* Content */}
                 <div className="p-5">
-                  {/* Status & Category */}
                   <div className="flex gap-2 mb-3 flex-wrap">
                     <span
                       className={`inline-block text-[10px] px-2 py-1 rounded-full font-medium capitalize ${
@@ -356,7 +344,6 @@ export function Projects() {
                     {project.description}
                   </p>
 
-                  {/* Tags */}
                   {project.tags.length > 0 && (
                     <div className="flex gap-1 flex-wrap mb-3">
                       {project.tags.slice(0, 2).map((tag) => (
@@ -372,7 +359,6 @@ export function Projects() {
                     </div>
                   )}
 
-                  {/* Footer */}
                   <div className="flex items-center justify-between pt-3 border-t border-[#E8C4B8]/30">
                     {project.participants > 0 && (
                       <div className="flex items-center gap-1 text-xs text-[#3D2B1F]/50">
@@ -411,7 +397,6 @@ export function Projects() {
         )}
       </div>
 
-      {/* ── МОДАЛКА: Детали проекта ── */}
       {selectedProject && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
@@ -422,7 +407,6 @@ export function Projects() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-8">
-              {/* Header */}
               <div className="flex items-start justify-between mb-6">
                 <div className="flex-1">
                   <div className="flex gap-2 mb-3 flex-wrap">
@@ -453,27 +437,23 @@ export function Projects() {
                 </button>
               </div>
 
-              {/* Image */}
               {selectedProject.image && (
                 <div className="mb-6 rounded-xl overflow-hidden max-h-80 bg-[#F0E6D0] flex items-center justify-center">
                   <img src={selectedProject.image} alt={selectedProject.title} className="w-full h-full object-cover" />
                 </div>
               )}
 
-              {/* Description */}
               <div className="mb-6">
                 <h3 className="font-serif text-lg text-[#3D2B1F] mb-2">О проекте</h3>
                 <p className="text-[#3D2B1F]/75 leading-relaxed">{selectedProject.description}</p>
               </div>
 
-              {/* Full Description */}
               {selectedProject.fullDescription && (
                 <div className="mb-6 p-4 bg-[#FAF3E0] rounded-xl border border-[#E8C4B8]/30">
                   <p className="text-[#3D2B1F]/75 leading-relaxed text-sm">{selectedProject.fullDescription}</p>
                 </div>
               )}
 
-              {/* Details Grid */}
               <div className="grid sm:grid-cols-2 gap-4 mb-6 p-4 bg-[#FAF3E0] rounded-xl">
                 {selectedProject.startDate && (
                   <div>
@@ -512,7 +492,6 @@ export function Projects() {
                 )}
               </div>
 
-              {/* Goals */}
               {selectedProject.goals.length > 0 && (
                 <div className="mb-6">
                   <h3 className="font-serif text-lg text-[#3D2B1F] mb-3">Цели проекта</h3>
@@ -527,7 +506,6 @@ export function Projects() {
                 </div>
               )}
 
-              {/* Tags */}
               {selectedProject.tags.length > 0 && (
                 <div className="mb-6">
                   <h3 className="font-serif text-sm text-[#3D2B1F]/70 mb-2">Теги</h3>
@@ -541,7 +519,6 @@ export function Projects() {
                 </div>
               )}
 
-              {/* Actions */}
               <div className="flex gap-3 pt-6 border-t border-[#E8C4B8]/30">
                 <button
                   onClick={() => handleToggleFavorite(selectedProject.id)}
@@ -579,7 +556,6 @@ export function Projects() {
         </div>
       )}
 
-      {/* ── МОДАЛКА: Добавить проект ── */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
@@ -595,7 +571,6 @@ export function Projects() {
               </div>
 
               <div className="space-y-4">
-                {/* Image */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-2">Фото (опционально)</label>
                   {imagePreview ? (
@@ -617,7 +592,6 @@ export function Projects() {
                   )}
                 </div>
 
-                {/* Title */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Название *</label>
                   <input
@@ -629,7 +603,6 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Short Description */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Краткое описание *</label>
                   <input
@@ -641,7 +614,6 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Full Description */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Полное описание</label>
                   <textarea
@@ -653,17 +625,11 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Category */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Категория</label>
                   <select
                     value={form.category}
-                    onChange={(e) =>
-                      setForm((p) => ({
-                        ...p,
-                        category: e.target.value as any,
-                      }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, category: e.target.value as any }))}
                     className="w-full px-4 py-2.5 bg-[#FAF3E0] border border-[#E8C4B8]/50 rounded-xl text-sm text-[#3D2B1F] focus:outline-none focus:border-[#C17A5A]"
                   >
                     {CATEGORIES.map((c) => (
@@ -674,17 +640,11 @@ export function Projects() {
                   </select>
                 </div>
 
-                {/* Status */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Статус</label>
                   <select
                     value={form.status}
-                    onChange={(e) =>
-                      setForm((p) => ({
-                        ...p,
-                        status: e.target.value as any,
-                      }))
-                    }
+                    onChange={(e) => setForm((p) => ({ ...p, status: e.target.value as any }))}
                     className="w-full px-4 py-2.5 bg-[#FAF3E0] border border-[#E8C4B8]/50 rounded-xl text-sm text-[#3D2B1F] focus:outline-none focus:border-[#C17A5A]"
                   >
                     {STATUSES.map((s) => (
@@ -695,7 +655,6 @@ export function Projects() {
                   </select>
                 </div>
 
-                {/* Dates */}
                 <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="block text-sm text-[#3D2B1F]/80 mb-1">Начало</label>
@@ -717,7 +676,6 @@ export function Projects() {
                   </div>
                 </div>
 
-                {/* Participants */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Участников</label>
                   <input
@@ -729,7 +687,6 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Tags */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Теги (через запятую)</label>
                   <input
@@ -741,7 +698,6 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Goals */}
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Цели (по строкам)</label>
                   <textarea
@@ -753,7 +709,6 @@ export function Projects() {
                   />
                 </div>
 
-                {/* Submit */}
                 <button
                   onClick={handleSubmit}
                   disabled={!form.title || !form.description}

@@ -144,7 +144,7 @@ export function Events() {
       date: '',
       time: '',
       location: '',
-      format: 'онлайн',
+      format: 'онлайн' as Event['format'],
       topic: '',
       attendees: 0,
       notes: '',
