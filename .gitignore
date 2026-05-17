@@ -1,0 +1,9 @@
+# Local IDE / OS files
+.vscode/
+.DS_Store
+
+# Vite log / local runtime artifacts
+vite.log
+
+# Dependency directories
+node_modules/

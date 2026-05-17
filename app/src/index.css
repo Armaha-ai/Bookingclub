@@ -1,0 +1,401 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Qwitcher+Grypen&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Book Club Pastel Color Palette */
+    /* Primary: Warm cream */
+    --cream-50: #FFFDF8;
+    --cream-100: #FAF3E0;
+    --cream-200: #F5E9CC;
+    --cream-300: #EED9A8;
+    
+    /* Secondary: Dusty rose */
+    --rose-100: #F5E0D8;
+    --rose-200: #E8C4B8;
+    --rose-300: #D9A898;
+    --rose-400: #C98C78;
+    
+    /* Accent: Sage green */
+    --sage-100: #D4E4D0;
+    --sage-200: #A8C5A0;
+    --sage-300: #7CA674;
+    --sage-400: #5A8552;
+    
+    /* Buttons: Terracotta */
+    --terracotta-400: #D99A7A;
+    --terracotta-500: #C17A5A;
+    --terracotta-600: #A65F40;
+    --terracotta-700: #8B4A2E;
+    
+    /* Text: Dark brown */
+    --brown-800: #5C4033;
+    --brown-900: #3D2B1F;
+    --brown-950: #2A1D15;
+    
+    /* Neutral warm grays */
+    --warm-gray-100: #F8F5F2;
+    --warm-gray-200: #EDE8E3;
+    --warm-gray-300: #D9D2CA;
+    --warm-gray-400: #B5ADA3;
+    --warm-gray-500: #8A827A;
+    --warm-gray-600: #6B655E;
+    --warm-gray-700: #4A4640;
+    
+    /* Page background - warm cream */
+    --page-bg: #FAF3E0;
+
+    /* shadcn/ui variable mapping - warm pastel theme */
+    --background: 43 50% 94%;
+    --foreground: 25 30% 18%;
+    --card: 43 50% 96%;
+    --card-foreground: 25 30% 18%;
+    --popover: 43 50% 96%;
+    --popover-foreground: 25 30% 18%;
+    --primary: 20 45% 55%;
+    --primary-foreground: 43 50% 96%;
+    --secondary: 15 45% 82%;
+    --secondary-foreground: 25 30% 18%;
+    --muted: 30 20% 90%;
+    --muted-foreground: 25 15% 40%;
+    --accent: 110 25% 70%;
+    --accent-foreground: 25 30% 18%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 43 50% 96%;
+    --border: 30 20% 85%;
+    --input: 30 20% 85%;
+    --ring: 20 45% 55%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--page-bg);
+    color: var(--brown-900);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    color: var(--brown-900);
+  }
+
+  .font-serif {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  .font-sans {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .font-script {
+    font-family: 'Qwitcher Grypen', cursive;
+  }
+}
+
+@layer components {
+  /* Button styles - Terracotta primary */
+  .btn-primary {
+    @apply px-8 py-3 text-sm font-medium tracking-wide transition-all duration-300 rounded-xl;
+    background-color: var(--terracotta-500);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: var(--terracotta-600);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(193, 122, 90, 0.3);
+  }
+
+  /* Secondary button - outlined */
+  .btn-secondary {
+    @apply px-8 py-3 text-sm font-medium tracking-wide transition-all duration-300 rounded-xl;
+    background-color: transparent;
+    color: var(--brown-900);
+    border: 2px solid var(--terracotta-500);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--terracotta-500);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Sage accent button */
+  .btn-sage {
+    @apply px-8 py-3 text-sm font-medium tracking-wide transition-all duration-300 rounded-xl;
+    background-color: var(--sage-200);
+    color: var(--brown-900);
+  }
+
+  .btn-sage:hover {
+    background-color: var(--sage-300);
+    transform: translateY(-2px);
+  }
+
+  /* Title with decorative bar */
+  .has-bar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .has-bar::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background-color: var(--terracotta-500);
+  }
+
+  /* Card styles */
+  .card-cozy {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(61, 43, 31, 0.08);
+    transition: all 0.3s ease;
+  }
+
+  .card-cozy:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(61, 43, 31, 0.12);
+  }
+
+  /* Fade-up animation */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Slide-in-left animation */
+  .slide-in-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+  }
+
+  .slide-in-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Slide-in-right animation */
+  .slide-in-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 700ms ease-out, transform 700ms ease-out;
+  }
+
+  .slide-in-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Scale-in animation */
+  .scale-in {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 600ms ease-out, transform 600ms ease-out;
+  }
+
+  .scale-in.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Parallax container */
+  .parallax-bg {
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  /* Ken Burns effect */
+  @keyframes kenburns {
+    0% {
+      transform: scale(1) translate(0, 0);
+    }
+    50% {
+      transform: scale(1.08) translate(-1%, -1%);
+    }
+    100% {
+      transform: scale(1) translate(0, 0);
+    }
+  }
+
+  .kenburns {
+    animation: kenburns 12s ease-in-out infinite;
+  }
+
+  /* Hero background - subtle slow zoom breathe */
+  @keyframes hero-breathe {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.04);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .hero-kenburns {
+    animation: hero-breathe 20s ease-in-out infinite;
+  }
+
+  /* Marquee animation */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  /* Carousel animation */
+  .slide-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 400ms ease-out;
+  }
+
+  .slide-inactive {
+    opacity: 0.4;
+    transform: scale(0.9);
+    transition: all 400ms ease-out;
+  }
+
+  /* Preloader animation */
+  @keyframes preloader-fade {
+    0% { opacity: 0; transform: translateY(10px); }
+    30% { opacity: 1; transform: translateY(0); }
+    70% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
+  }
+
+  @keyframes preloader-line {
+    0% { width: 0; }
+    100% { width: 100%; }
+  }
+
+  .preloader-text {
+    animation: preloader-fade 2s ease-in-out forwards;
+  }
+
+  .preloader-line {
+    animation: preloader-line 2s ease-in-out forwards;
+  }
+
+  /* Floating animation for decorative elements */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-10px) rotate(2deg);
+    }
+  }
+
+  .float-animation {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Gentle pulse for CTA elements */
+  @keyframes gentle-pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+  }
+
+  .gentle-pulse {
+    animation: gentle-pulse 3s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  /* Text gradient - warm terracotta */
+  .text-gradient-warm {
+    background: linear-gradient(135deg, var(--terracotta-500), var(--terracotta-700));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Background overlays - warm tones */
+  .bg-overlay-warm {
+    background: linear-gradient(to bottom, rgba(250, 243, 224, 0.3), rgba(250, 243, 224, 0.7));
+  }
+
+  .bg-overlay-dark-warm {
+    background: linear-gradient(to bottom, rgba(61, 43, 31, 0.4), rgba(61, 43, 31, 0.7));
+  }
+
+  /* Section padding */
+  .section-padding {
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .section-padding {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+  }
+
+  /* Container */
+  .container-custom {
+    max-width: 1216px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  /* Pastel background colors */
+  .bg-cream { background-color: var(--cream-100); }
+  .bg-rose { background-color: var(--rose-200); }
+  .bg-sage { background-color: var(--sage-200); }
+  .bg-terracotta { background-color: var(--terracotta-500); }
+  
+  /* Text colors */
+  .text-brown { color: var(--brown-900); }
+  .text-brown-light { color: var(--brown-800); }
+  .text-terracotta { color: var(--terracotta-500); }
+}
