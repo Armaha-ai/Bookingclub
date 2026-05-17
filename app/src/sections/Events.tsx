@@ -65,7 +65,7 @@ export function Events() {
     date: '',
     time: '',
     location: '',
-    format: 'онлайн' as const,
+    format: 'онлайн' as Event['format'],
     topic: '',
     attendees: 0,
     notes: '',
@@ -176,7 +176,7 @@ export function Events() {
           {['все', 'предстоящая', 'прошедшая'].map((status) => (
             <button
               key={status}
-              onClick={() => setFilterStatus(status as any)}
+              onClick={() => setFilterStatus(status as 'все' | 'предстоящая' | 'прошедшая')}
               className={`px-6 py-3 rounded-xl text-sm transition-all duration-300 ${
                 filterStatus === status
                   ? 'bg-[#A8C5A0] text-white shadow-lg'
@@ -464,7 +464,11 @@ export function Events() {
 
                 <div>
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Формат</label>
-                  <select value={form.format} onChange={(e) => setForm((p) => ({ ...p, format: e.target.value as 'онлайн' | 'офлайн' | 'гибридный' }))} className="w-full px-4 py-2.5 bg-white border border-[#E8C4B8]/50 rounded-xl text-sm text-[#3D2B1F] focus:outline-none focus:border-[#C17A5A]">
+                  <select
+                    value={form.format}
+                    onChange={(e) => setForm((p) => ({ ...p, format: e.target.value as Event['format'] }))}
+                    className="w-full px-4 py-2.5 bg-white border border-[#E8C4B8]/50 rounded-xl text-sm text-[#3D2B1F] focus:outline-none focus:border-[#C17A5A]"
+                  >
                     {FORMATS.map((f) => (
                       <option key={f} value={f}>{f.charAt(0).toUpperCase() + f.slice(1)}</option>
                     ))}
