@@ -18,6 +18,19 @@ interface Event {
   userAdded?: boolean;
 }
 
+// ← ИСПРАВЛЕНО: вынесен тип формы, чтобы format не сужался до литерала 'онлайн'
+interface EventForm {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  format: 'онлайн' | 'офлайн' | 'гибридный';
+  topic: string;
+  attendees: number;
+  notes: string;
+}
+
 const STORAGE_KEY = 'bookclub_events';
 const FORMATS = ['онлайн', 'офлайн', 'гибридный'];
 
@@ -51,6 +64,18 @@ function formatDate(dateStr: string): string {
   return date.toLocaleDateString('ru-RU', options);
 }
 
+const EMPTY_FORM: EventForm = {
+  title: '',
+  description: '',
+  date: '',
+  time: '',
+  location: '',
+  format: 'онлайн',
+  topic: '',
+  attendees: 0,
+  notes: '',
+};
+
 export function Events() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [events, setEvents] = useState<Event[]>(loadEvents);
@@ -59,17 +84,7 @@ export function Events() {
   const [filterStatus, setFilterStatus] = useState<'все' | 'предстоящая' | 'прошедшая'>('все');
   const [imagePreview, setImagePreview] = useState<string>('');
 
-  const [form, setForm] = useState({
-    title: '',
-    description: '',
-    date: '',
-    time: '',
-    location: '',
-    format: 'онлайн' as Event['format'],
-    topic: '',
-    attendees: 0,
-    notes: '',
-  });
+  const [form, setForm] = useState<EventForm>(EMPTY_FORM);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -138,17 +153,7 @@ export function Events() {
     saveEvents(updated);
     setShowAddModal(false);
     setImagePreview('');
-    setForm({
-      title: '',
-      description: '',
-      date: '',
-      time: '',
-      location: '',
-      format: 'онлайн' as Event['format'],
-      topic: '',
-      attendees: 0,
-      notes: '',
-    });
+    setForm(EMPTY_FORM);
   };
 
   const handleDeleteEvent = (id: string) => {
@@ -466,7 +471,7 @@ export function Events() {
                   <label className="block text-sm text-[#3D2B1F]/80 mb-1">Формат</label>
                   <select
                     value={form.format}
-                    onChange={(e) => setForm((p) => ({ ...p, format: e.target.value as Event['format'] }))}
+                    onChange={(e) => setForm((p) => ({ ...p, format: e.target.value as EventForm['format'] }))}
                     className="w-full px-4 py-2.5 bg-white border border-[#E8C4B8]/50 rounded-xl text-sm text-[#3D2B1F] focus:outline-none focus:border-[#C17A5A]"
                   >
                     {FORMATS.map((f) => (

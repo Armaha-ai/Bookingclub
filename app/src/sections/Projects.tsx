@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Zap, Users, ArrowRight, Plus, X, Heart } from 'lucide-react';
+import { Zap, Users, ArrowRight, Plus, X, Heart } from 'lucide-react'; // ← ИСПРАВЛЕНО: убран Target
 
 interface Project {
   id: string;

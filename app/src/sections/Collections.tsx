@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { BookMarked, Plus, X, Copy, Star, Trash2 } from 'lucide-react';
+import { BookMarked, Plus, X, Copy, Star, Trash2 } from 'lucide-react'; // ← ИСПРАВЛЕНО: убран Share2
 
 interface BookInCollection {
   id: string;
